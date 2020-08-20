@@ -10,6 +10,7 @@ declare module "sockette" {
 
 	export interface SocketteOptions {
 		protocols?: string | string[];
+		extra?: object;
 		timeout?: number;
 		maxAttempts?: number;
 		onopen?: (this: Sockette, ev: Event) => any;

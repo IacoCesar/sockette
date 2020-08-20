@@ -3,11 +3,14 @@ function noop() {}
 export default function (url, opts) {
 	opts = opts || {};
 
-	var ws, num=0, timer=1, $={};
+	var ws,
+		num = 0,
+		timer = 1,
+		$ = {};
 	var max = opts.maxAttempts || Infinity;
 
 	$.open = function () {
-		ws = new WebSocket(url, opts.protocols || []);
+		ws = new WebSocket(url, opts.protocols || [], opts.extra);
 
 		ws.onmessage = opts.onmessage || noop;
 
@@ -22,7 +25,9 @@ export default function (url, opts) {
 		};
 
 		ws.onerror = function (e) {
-			(e && e.code==='ECONNREFUSED') ? $.reconnect(e) : (opts.onerror || noop)(e);
+			e && e.code === "ECONNREFUSED"
+				? $.reconnect(e)
+				: (opts.onerror || noop)(e);
 		};
 	};
 
